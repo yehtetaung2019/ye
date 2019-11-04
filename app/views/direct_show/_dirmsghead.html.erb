@@ -1,0 +1,34 @@
+<div id="activestatus">
+        <div class = "title">			
+            <h2 class="style1">
+            <!-- Profile Yin Yin Aye -->
+            <% unless (@s_user_info.present?) %>
+                <%= image_tag "userimg.jpg", :class => "img-circle", :size => "45x45" %>
+            <% else %>
+                <% unless (@s_user_info.profile_image.present?) %>
+                        <%= image_tag "userimg.jpg", :class => "img-circle", :size => "45x45" %>
+                <% else %>
+                        <%= image_tag @s_user_info.profile_image.url, :class => "img-circle", :size => "45x45" %>
+                <% end %>
+             <% end %>
+             <!-- Profile Yin Yin Aye -->
+             <%= @s_user.name%><%= link_to "",  viewprofile_path , class:'fa fa-info-circle', style: 'float:right;color:rgb(57, 76, 105);'%>
+            </h2>
+            
+            <!-- Thu Zin Tun -->
+            <% if @s_user.active_status == true %>
+                <span class="style2" style="color:green;">active now</span>
+            <% else %>
+            
+            <% if (@time_d / 60) < 60 %>
+            <span class="style2" style="color:green;"> <%= Time.at(@time_d).utc.strftime("%M mins ")  %> ago</span>
+            <% elsif (@time_day) < 24 %>
+            <span class="style2" style="color:green;"> <%= Time.at(@time_d).utc.strftime("%H hours %M mins ")  %> ago</span>
+            <% else %>
+            <span class="style2" style="color:green;"> <%= (@s_user.updated_at).strftime("%d-%m-%y %H:%M:%S") %> ago</span>
+            <% end %>
+
+            <% end %>
+            <!-- Thu Zin Tun -->
+        </div>
+</div>        

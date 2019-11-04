@@ -1,0 +1,9 @@
+<h1>CMM Chat App/h1>
+
+<p>Hi <%= @i_user.name %>,</p>
+
+<p>
+Welcome to the CMM Chat App! Click on the link below to confirm your account:
+</p>
+
+<%= link_to "Invite", confirminvitation_url(email: @i_user.email, workspaceid: @i_workspace.id, channelid: @i_channel.id) %>

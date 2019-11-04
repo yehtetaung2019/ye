@@ -1,0 +1,48 @@
+
+<header class="navbar navbar-fixed-top navbar-light navbar-default">
+  <div class="container">
+    <!-- <%= image_tag("welcome.png", size: "30x30", alt: "Edit Entry") %> -->
+    <%= link_to "CMM Chat Application", '#', id: "logo" %>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+      <% if session[:workspace_id].nil?%>
+        <li><%= link_to "Home",   'welcome' %></li>
+        <li><%= link_to "Create Workspace",   'workspace' %></li>
+        <li><%= link_to "Sign in", 'signin' %></li>
+      <% else %>
+        <li><%= link_to "Home", home_url%></li>
+        <li><%= link_to "My Profile", myprofile_path%></li>
+        <li><%= link_to "Log out", logout_path, method: :delete%></li>
+      <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- Thu Zin Tun 27082019  -->
+<!-- Modal -->
+  <div class="modal fade" id="wModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #A8A8A8">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="color: white">Workspace Delete</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure to delete workspace?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info btn-sm" style='font-size:15px;'>
+                <%= link_to "Delete", delete_workspace_path, class: 'glyphicon glyphicon-trash',  style: 'font-size:15px; color: white;'%>
+            </button>
+            <button type="button" class="btn btn-info btn-sm" style='font-size:15px;' data-dismiss="modal">
+                <%= link_to "Cancel", "#", class: 'glyphicon glyphicon-remove',  style: 'font-size:15px; color: white;'%>
+            </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Thu Zin Tun 27082019  -->

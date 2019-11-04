@@ -1,0 +1,79 @@
+<div id="main">
+        <div class = "txtmsg">	
+            <% @count = 0 %>	
+            
+            <div class="title" >			
+              <h2 class="style1"><%= @s_channel.channel_name%></h2>
+            </div>
+            <div class="container" style="padding-top: 60px;">
+            <% if @m_channelsids.include?session[:s_channel_id].to_i %>
+                  <div class="col-md-6 col-md-offset-3">                
+                  <%= form_tag(channeluseradd_path, method: "get") do %>
+                    <div class="col-md-3">
+                      <%= label_tag(:q, "User List:") %>
+                    </div>
+                      <div class="col-md-5">
+                      <select name="userid">
+                        <%  @w_users.each do |wuser| %>
+                          <% unless @c_users_id.include?(wuser.id) %>
+                            <option value="<%= wuser.id %>"><%= wuser.name%></option>
+                          <% end %>
+                        <% end %>
+                      </select>
+                      </div>
+                      
+                    <div class="col-md-2">
+                      <%= submit_tag("Add", :class=> "btn btn-primary")%>
+                    </div>
+                    <% end %>
+                  </div>
+            <% end %>
+            </div>
+            
+          <% if @m_channelsids.include?session[:s_channel_id].to_i %>
+           <hr>
+          <% end %>
+            <div>
+              <div class="col-md-4" id="cuserlist">
+                  <p class="style21">番号 </p>
+                </div>
+                <div class="col-md-2" >
+                  <p class="style22">ユーザ名</p> 
+                </div>
+                
+                <div class="col-md-3">
+                  <p class="style23">メールアドレス</p>
+                </div>
+
+                <div class="col-md-3">
+                      <p class="style24" >セットアップ</p>
+                </div>
+
+                <% @c_users.each do |c_user| %>
+                <div class="col-md-4" id="cuserlist">
+                  <p class="style21"><%= @count += 1 %></p>
+                </div>
+                <div class="col-md-2" >
+                  <p class="style22"><%= c_user.name%></p> 
+                </div>
+                
+                <div class="col-md-3">
+                  <p class="style23"><%= c_user.email %></p>
+                </div>
+
+                <div class="col-md-3">
+                  <% if c_user.created_admin == 0 and @m_channelsids.include?session[:s_channel_id].to_i %>
+                      <p class="style24" ><%= link_to "Remove", channeluserdestroy_path(id: c_user.id)%></p>
+                  <% end %>
+                </div>
+
+                <% end %>
+            <div>
+    </div>
+</div>
+<div>
+    <%= render 'leftpanel/leftpanel' %>
+</div>
+
+
+

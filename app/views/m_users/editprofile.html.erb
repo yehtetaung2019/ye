@@ -1,0 +1,163 @@
+<!-- Profile Create by Yin Yin Aye@CyberMissions Myanmar Company limited --> 
+ <div style="background:lightblue;">
+ <%=form_for(:user, :html => {:multipart => true },url: save_path) do |f| %>
+  <div class="title" style="background:lightgrey;"><h2 class="style1">
+    Edit Profile
+    <span style="float:right;margin-right:2vw;">
+      <button type="button" class="btn btn-primary btn-sm" style='font-size:15px;'>
+        <%= link_to "Cancel", myprofile_path,  style: 'font-size:15px; color: white;'%>
+      </button>
+      <button type="button" class="btn btn-primary btn-sm" style='font-size:15px;padding:2px;'>
+        <%= f.submit "Save", class: "btn btn-primary btn-sm", style: 'color: white;' %>
+      </button> 
+    </span>
+  </h2></div><br><br>
+
+    <span class="row">
+      <span class="col-xs-3 col-sm-3 col-md-3 col-xs-offset-3 col-sm-offset-3 col-md-offset-2">
+        <% unless (@user_info.present?) %>
+          <%= image_tag "userimg.jpg", :class => "img-round",id:"blah",style:"border:3px solid grey;width:100%;height:200px;margin-bottom:3px;" %> <br>
+        <% else %>
+            <% unless (@user_info.profile_image.present?) %>
+              <%= image_tag "userimg.jpg", :class => "img-round",id:"blah",style:"border:3px solid grey;width:100%;height:200px;margin-bottom:3px;" %> <br>
+            <% else %>
+              <%= image_tag @user_info.profile_image.url, :class => "img-round",id:"blah",style:"border:3px solid grey;width:100%;height:200px;margin-bottom:3px;" %> <br>
+            <% end %>
+        <% end %>
+        
+      <label type="button" class="btn btn-success btn-sm" for="edit-photo" style='font-size:15px;width:48%;'>
+      Upload
+      </label>
+      <%= f.file_field :attachment, id:"edit-photo", onchange:"readURL(this);"%>
+      <%= f.hidden_field :remove_profile, :id => 'remove_profile' %>
+      <button type="button" class="btn btn-danger btn-sm" id="delphoto", style='font-size:15px; color: white;width:48%;float:right;'>
+      Delete Photo
+      </button>
+
+      </span>
+    </span>
+
+    <span class="row">
+      <%= f.hidden_field :id %>
+      <span class="col-xs-2 col-sm-2 col-md-2 col-xs-offset-2 col-sm-offset-2 col-md-offset-2">
+        <%= f.label :"Name",style:'font-size:16px;' %>
+      </span>
+      <span class="col-xs-3 col-sm-3 col-md-3">
+        <%= f.text_field:name,class:'form-control',value:@m_user.name,:readonly => true%><br>
+      </span>
+    </span>
+
+    <span class="row">
+      <span class="col-xs-2 col-sm-2 col-md-2 col-xs-offset-2 col-sm-offset-2 col-md-offset-2">
+        <%= f.label :"Gender",style:'font-size:16px;' %>
+      </span>
+      <span class="col-xs-3 col-sm-3 col-md-3">
+      <% unless @user_info.nil? %>
+        <% if @user_info.gender==true %>
+          <span>
+            <span class="col-xs-3 col-sm-3 col-md-3">
+              <%= f.radio_button :gender,'0' %>
+            </span>
+            <span class="col-xs-3 col-sm-3 col-md-3">
+            <%= f.label :Male %>
+            </span>
+            <span class="col-xs-3 col-sm-3 col-md-3">
+              <%= f.radio_button :gender,'1',:checked=>true %>
+            </span>
+            <span class="col-xs-3 col-sm-3 col-md-3">
+            <%= f.label :Female %>
+            </span>
+          </span>
+        <% else %>
+          <span>
+            <span class="col-xs-3 col-sm-3 col-md-3">
+              <%= f.radio_button :gender,'0',:checked=>true %>
+            </span>
+            <span class="col-xs-3 col-sm-3 col-md-3">
+            <%= f.label :Male %>
+            </span>
+            <span class="col-xs-3 col-sm-3 col-md-3">
+              <%= f.radio_button :gender,'1' %>
+            </span>
+            <span class="col-xs-3 col-sm-3 col-md-3">
+            <%= f.label :Female %>
+            </span>
+          </span>
+        <% end %>
+      <% else %>
+        <span>
+          <span class="col-xs-3 col-sm-3 col-md-3">
+            <%= f.radio_button :gender,'0',:checked=>true %>
+          </span>
+          <span class="col-xs-3 col-sm-3 col-md-3">
+          <%= f.label :Male %>
+          </span>
+          <span class="col-xs-3 col-sm-3 col-md-3">
+            <%= f.radio_button :gender,'1' %>
+          </span>
+          <span class="col-xs-3 col-sm-3 col-md-3">
+          <%= f.label :Female %>
+          </span>
+        </span>
+      <% end %>
+      </span>
+    </span>
+
+    <span class="row">
+      <span class="col-xs-2 col-sm-2 col-md-2 col-xs-offset-2 col-sm-offset-2 col-md-offset-2">
+        <%= f.label :"Date Of Birth",style:'font-size:16px;' %>
+      </span>
+      <span class="col-xs-3 col-sm-3 col-md-3">
+      <% unless @user_info.nil? %>
+        <%= f.date_field:dob,class:'form-control',value:@user_info.dob,placeholder:'Enter Date Of Birth'%><br>
+      <% else %>
+        <%= f.date_field:dob,class:'form-control',placeholder:'Enter Date Of Birth'%><br>
+      <% end %>
+      </span>
+    </span>
+
+    <span class="row">
+      <span class="col-xs-2 col-sm-2 col-md-2 col-xs-offset-2 col-sm-offset-2 col-md-offset-2">
+        <%= f.label :"Work",style:'font-size:16px;' %>
+      </span>
+      <span class="col-xs-3 col-sm-3 col-md-3">
+      <% unless @user_info.nil? %>
+        <%= f.text_field:work,class:'form-control',value:@user_info.work,placeholder:'Enter Work'%>
+      <% else %>
+        <%= f.text_field:work,class:'form-control',placeholder:'Enter Work'%>
+      <% end %>
+      </span>
+    </span>
+
+  <% end %>
+  </div>
+
+  <div>
+    <%= render 'leftpanel/leftpanel' %>
+  </div>
+  <script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah')
+                .attr('src', e.target.result);
+            $("#remove_profile").val('null');   
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(document).ready(function(){
+
+  $("#delphoto").click(function(){
+    $("#blah").removeAttr("src");
+    $("#blah").attr("src", "");
+    $("#remove_profile").val('remove')
+  });
+});
+
+</script>
+  <!-- Profile Create by Yin Yin Aye@CyberMissions Myanmar Company limited -->

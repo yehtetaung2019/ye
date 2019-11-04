@@ -1,0 +1,147 @@
+<div id="mySidenav" class="sidenav">
+	<nav class="navbar justify-content-between dropright">
+		<div class="btn-group dropright list-group nav">
+<!-- TZT workspace edit Delete  -->
+		<% if @m_user.admin == true%>
+			<div class="row container">
+				<span class="dott cc list-group-item list-group-item-action" style="float:left;"><%= @m_workspace.workspace_name %></span> 
+				<span class="cc list-group-item list-group-item-action" style="margin:0px;float:left;">
+					<div class="dropdown">
+						<span class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></span>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li style="color: black;"><%= link_to "編集", change_workspacename_path,class:'fa fa-edit',style: 'font-weight:bold; font-size:15px;' %></li>
+							<li><%= link_to "削除",delete_workspace_path,class:"fas fa-trash-alt",style: 'font-weight:bold; font-size:15px;', "data-toggle" => "modal", 'data-target' => '#wModal' %></li>
+						</ul>
+					</div>
+				</span> 
+			</div>
+		<span class="widthn cc list-group-item list-group-item-action"><%= @m_user.name %></span>
+		<% else %>
+		<span class="cc list-group-item list-group-item-action"><%= @m_workspace.workspace_name %></span> 
+		<span class="cc list-group-item list-group-item-action"><%= @m_user.name %></span>
+		<% end %>
+		</div>
+<!-- TZT workspace edit Delete  -->
+	</nav>
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-sm-3">
+				<nav id="sidebar">
+					<ul class="list-unstyled components" >
+						<ul class="countnumber">
+							<div id = "allcount">
+								<li class="countnumberone">
+									<%= link_to "全未読", allunread_url, class: 'fa fa-align-justify' %>
+								</li>
+								<% if @all_unread_count > 0 %> 
+									<li class="countnumbertwo">
+										<%=  @all_unread_count %>
+									</li>
+								<% end %>
+							</div>
+						</ul>
+						<li class="form-inline my-0 my-lg-0">
+							<%= link_to "スレッド" , thread_url, class: 'fa fa-comments' %>
+						</li>
+						<li class="form-inline my-0 my-lg-0">
+							<%= link_to "スター" , starlists_url,class: 'fa fa-star' %>
+						</li>
+						<li class="form-inline my-0 my-lg-0">
+							<%= link_to "アクティピテイ" , mentionlists_url, class: 'fas fa-at'%>
+						</li>
+						<% if @m_user.admin == true %>
+							<li class="form-inline my-0 my-lg-0">
+								<%= link_to "ユーザ管理" , usermanage_url, class: 'fa fa-edit'%>
+							</li>
+						<% end %>
+						<li class="form-inline my-0 my-lg-0">
+							<%= link_to "メンバーを招待する" , memberinvite_url, class: 'fa fa-plus-circle'%>
+						</li>
+						<li>
+							<%= link_to "チャンネル" , channelcreate_url,class: 'fa fa-plus-circle' %>
+							<div id="channellists">
+								<% @m_channels.each do |m_channel| %>
+									<% if session[:s_channel_id] !=  m_channel.id.to_s%>
+										<ul class="countnumber">
+									<% else %>
+										<ul style= "background-color: #2E86C1" class="countnumber">
+									<% end %>
+										<li class="countnumberone">
+											<% if m_channel.channel_status == true%>
+												<%= link_to m_channel.channel_name, m_channel, class: 'fas fa-hashtag' %>
+											<% else%>
+											<%= link_to m_channel.channel_name, m_channel , class: 'fa fa-lock'%>
+											<% end%>
+										</li>
+										<% if m_channel.message_count > 0 %> 
+											<li class="countnumbertwo">
+												<%=  m_channel.message_count %>
+											</li>
+										<% end %>
+									</ul>
+								<% end %>
+							</div>
+
+							<div id="channelpubliclists">
+								<% @m_p_channels.each do |m_channel| %>
+									<% unless @m_channelsids.include? m_channel.id%>	
+										<% if session[:s_channel_id] !=  m_channel.id.to_s%>
+										<ul class="countnumber">
+										<% else %>
+											<ul style= "background-color: #2E86C1" class="countnumber">
+										<% end %>					
+											<li class="countnumberone">
+											<% if m_channel.channel_status == true%>
+												<%= link_to m_channel.channel_name, m_channel,  class: 'fas fa-hashtag' %>
+											<% else %>
+												<%= link_to m_channel.channel_name, m_channel , class: 'fa fa-lock'%>
+											<% end %>
+											</li>
+										</ul>
+									<% end %>
+								<% end %>
+							</div>
+						</li>
+						<li>
+							<a href="#" class="channel">ダイレクトメッセージ</a>							
+								<div id="userlists">
+									<ul class="countnumber">
+										<li class="countnumberone">
+											<%= link_to @m_user.name+"(自分)", "#", class: 'glyphicon glyphicon-user', style: 'word-spacing: -0.63em;color: yellow;'%>
+										</li>
+									</ul>
+									<% @count = 0%>
+									<% @m_users.each do |m_user| %>
+										<% if@m_user.id !=  m_user.id %>
+											<% if session[:s_user_id] !=  m_user.id.to_s %>
+												<ul class="countnumber">
+											<% else %>
+												<ul style="background-color: #2E86C1" class="countnumber">
+											<% end %>
+											<li class="countnumberone">
+												<% if m_user.active_status == true%>
+													<%= link_to m_user.name, m_user, class: 'glyphicon glyphicon-user', style: 'word-spacing: -0.63em; color: #7AB900;'%> 
+												<% else %>
+													<%= link_to m_user.name, m_user, class: 'glyphicon glyphicon-user', style: 'word-spacing: -0.63em; color: white;'%> 
+												<% end %>
+											</li>
+											<% if @direct_msgcounts[@count] != 0 %> 
+												<li class="countnumbertwo">
+													<%=  @direct_msgcounts[@count] %>
+												</li>
+											<% end %> 	
+										</ul>
+										<% end %>
+									<% @count += 1 %>
+									<% end %>
+								</div>
+						</li>                       
+					</ul>
+				</nav>
+			</div>
+		</div>
+		
+	</div>   
+
+</div>
+

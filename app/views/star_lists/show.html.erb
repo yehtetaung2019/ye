@@ -1,0 +1,235 @@
+<% provide(:title, 'Star') %>
+<div id="main">
+
+<h1>Star Lists</h1>
+
+<div>
+    <h2 class="style1">Direct Star Lists</h2>
+
+    <% @count = 0 %>
+    <% @t_direct_messages.each do |t_direct_message| %>
+
+    <p class="style21"><%= @count += 1 %></p>
+
+    <p class="style22">
+    <!-- Imgprofile Yin Yin Aye -->
+    <% @msg_profiles.each do |msg_profile| %>
+        <% if msg_profile.user_id == t_direct_message.send_user_id %>
+                <% unless (msg_profile.present?) %>
+                <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+                <% else %>
+                <% unless (msg_profile.profile_image.present?) %>
+                        <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+                <% else %>
+                        <%= image_tag msg_profile.profile_image.url, :class => "img-circle", :size => "30x30" %>
+                <% end %>
+                <% end %>
+        <% end %>
+    <% end %>
+    <!-- Imgprofile Yin Yin Aye -->
+    <%= t_direct_message.name%>
+    </p>
+
+    <p class="style23"><%= t_direct_message.created_at.strftime("%F") %>/<%= t_direct_message.created_at.strftime("%I:%M%p") %></p>
+
+    <p class="style24"></p> 
+            
+    <%= link_to "",  "", class:'fas fa-star'%>
+            
+    <p class="style3"> 
+        <span style="border-radius:10px;padding:5px;background-color:#42c5ed;color: black;"><%= content_with_emoji t_direct_message.directmsg %></span>
+    </p>
+    <!-- yehtetaung -->
+    <% @direct_attachment.each do |attach|%>
+        <% if t_direct_message.id == attach.id %>
+            <p class="style3"><%=link_to "Download file", attach.attachement_url%></p>
+            <% if ['jpg', 'jpeg', 'png','gif'].include?(attach.attachement.file.extension.downcase) %>
+                <p class="style3"><%= image_tag attach.attachement.url,:size => '260x180' %> <p class="style3">
+            <% elsif ['mp4'].include?(attach.attachement.file.extension.downcase) %>
+                <p class="style3"><%= video_tag attach.attachement.url, :size => "720x240", :controls => true, autoplay: true, loop: true %></p>
+            <%else%>
+                <p class="style3"><%= attach.attachement.file.filename %></p>
+            <% end %>
+        <% end %>
+    <% end %>
+    <!-- yehtetaung -->
+    <hr>
+    <% end %>
+
+</div>
+
+<div>
+        <h2 class="style1">Direct Threads Star Lists</h2>
+
+        <% @count = 0 %>
+        <% @t_direct_threads.each do |t_direct_thread| %>
+
+            <p class="style21"><%= @count += 1 %></p>
+
+            <p class="style22">
+            <!-- Imgprofile Yin Yin Aye -->
+            <% @msg_profiles.each do |msg_profile| %>
+                <% if msg_profile.user_id == t_direct_thread.m_user_id %>
+                        <% unless (msg_profile.present?) %>
+                        <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+                        <% else %>
+                        <% unless (msg_profile.profile_image.present?) %>
+                                <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+                        <% else %>
+                                <%= image_tag msg_profile.profile_image.url, :class => "img-circle", :size => "30x30" %>
+                        <% end %>
+                        <% end %>
+                <% end %>
+            <% end %>
+            <!-- Imgprofile Yin Yin Aye -->
+            <%= t_direct_thread.name%>
+            </p>
+
+            <p class="style23"><%= t_direct_thread.created_at.strftime("%F") %>/<%= t_direct_thread.created_at.strftime(" %I:%M%p") %></p>
+
+            <p class="style24"></p> 
+            
+            <%= link_to "",  "", class:'fas fa-star'%>
+
+            <p class="style3">
+                <span style="border-radius:10px;padding:5px;background-color:#42c5ed;color: black;"><%= content_with_emoji t_direct_thread.directthreadmsg %></span>
+            </p>
+            <!-- yehtetaung -->
+             <%  @direct_thread_attachment.each do |attach|%>
+                <% if t_direct_thread.id == attach.id %>
+                    <p class="style3"><%=link_to "Download file", attach.attachement_url%></p>
+                    <% if ['jpg', 'jpeg', 'png','gif'].include?(attach.attachement.file.extension.downcase) %>
+                       <p class="style3"><%= image_tag attach.attachement.url,:size => '260x180' %> <p class="style3">
+                    <% elsif ['mp4'].include?(attach.attachement.file.extension.downcase) %>
+                        <p class="style3"><%= video_tag attach.attachement.url, :size => "720x240", :controls => true, autoplay: true, loop: true %></p>
+                    <%else%>
+                        <p class="style3"><%= attach.attachement.file.filename %></p>
+                    <% end %>
+                <% end %>
+            <% end %>
+            <!-- yehtetaung -->
+        <hr>
+    <% end %>
+
+</div>
+
+<div>
+    <h2 class="style1">Group Star Lists</h2>
+
+    <% @count = 0 %>
+    <% @t_group_messages.each do |t_group_message| %>
+
+    <h4 class="style2"><%= t_group_message.channel_name %></h4>
+
+    <p class="style21"><%= @count += 1 %></p>
+
+    <p class="style22">
+    <!-- Imgprofile Yin Yin Aye -->
+    <% @msg_profiles.each do |msg_profile| %>
+        <% if msg_profile.user_id == t_group_message.m_user_id %>
+            <% unless (msg_profile.present?) %>
+                <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+            <% else %>
+                <% unless (msg_profile.profile_image.present?) %>
+                    <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+                <% else %>
+                    <%= image_tag msg_profile.profile_image.url, :class => "img-circle", :size => "30x30" %>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+    <!-- Imgprofile Yin Yin Aye -->
+    <%= t_group_message.name%>
+    </p>
+    
+    <p class="style23"><%= t_group_message.created_at.strftime("%F") %>/<%= t_group_message.created_at.strftime("%I:%M%p") %></p>
+
+    <p class="style24"></p> 
+            
+    <%= link_to "",  "", class:'fas fa-star'%>
+            
+    <p class="style3"> 
+        <span style="border-radius:10px;padding:5px;background-color:#42c5ed;color: black;"><%= content_with_emoji t_group_message.groupmsg %></span>   
+    </p>
+    <!-- yehtetaung -->
+    <% @group_attachment.each do |attach|%>
+        <% if t_group_message.id == attach.id %>
+            <p class="style3"><%=link_to "Download file", attach.attachement_url%></p>
+            <% if ['jpg', 'jpeg', 'png','gif'].include?(attach.attachement.file.extension.downcase) %>
+                <p class="style3"><%= image_tag attach.attachement.url,:size => '260x180' %> <p class="style3">
+            <% elsif ['mp4'].include?(attach.attachement.file.extension.downcase) %>
+                <p class="style3"><%= video_tag attach.attachement.url, :size => "720x240", :controls => true, autoplay: true, loop: true %></p>
+            <%else%>
+                <p class="style3"><%= attach.attachement.file.filename %></p>
+            <% end %>
+        <% end %>
+    <% end %>
+    <!-- yehtetaung -->
+    <hr>
+    <% end %>
+
+</div>
+
+<div>
+    <h2 class="style1">Group Thread Star Lists</h2>
+
+    <% @count = 0 %>
+    <% @t_group_threads.each do |t_group_thread| %>
+
+    <h4 class="style2"><%= t_group_thread.channel_name%></h4>
+
+    <p class="style21"><%= @count += 1 %></p>
+
+    <p class="style22">
+    <!-- Imgprofile Yin Yin Aye -->
+    <% @msg_profiles.each do |msg_profile| %>
+        <% if msg_profile.user_id == t_group_thread.m_user_id %>
+            <% unless (msg_profile.present?) %>
+                <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+            <% else %>
+                <% unless (msg_profile.profile_image.present?) %>
+                    <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+                <% else %>
+                    <%= image_tag msg_profile.profile_image.url, :class => "img-circle", :size => "30x30" %>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+    <!-- Imgprofile Yin Yin Aye -->
+    <%= t_group_thread.name%>
+    </p>
+    
+    <p class="style23"><%= t_group_thread.created_at.strftime("%F") %>/<%= t_group_thread.created_at.strftime("%I:%M%p") %></p>
+
+    <p class="style24"></p> 
+            
+    <%= link_to "",  "", class:'fas fa-star'%>
+            
+    <p class="style3">
+        <span style="border-radius:10px;padding:5px;background-color:#42c5ed;color: black;"><%= content_with_emoji t_group_thread.groupthreadmsg %></span>   
+    </p>
+    <!-- yehtetaung -->
+    <%  @group_thread_attachment.each do |attach|%>
+        <% if t_group_thread.id == attach.id %>
+            <p class="style3"><%=link_to "Download file", attach.attachement_url%></p>
+            <% if ['jpg', 'jpeg', 'png','gif'].include?(attach.attachement.file.extension.downcase) %>
+                <p class="style3"><%= image_tag attach.attachement.url,:size => '260x180' %> <p class="style3">
+            <% elsif ['mp4'].include?(attach.attachement.file.extension.downcase) %>
+                <p class="style3"><%= video_tag attach.attachement.url, :size => "720x240", :controls => true, autoplay: true, loop: true %></p>
+            <%else%>
+                <p class="style3"><%= attach.attachement.file.filename %></p>
+            <% end %>
+        <% end %>
+    <% end %>
+    <!-- yehtetaung -->
+    <hr>
+    <% end %>
+
+</div>
+
+</div>
+    
+
+<div>
+    <%= render 'leftpanel/leftpanel' %>
+</div>

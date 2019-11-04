@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <%= favicon_link_tag 'cmm.png' %>
+
+  <title><%= full_title(yield(:title)) %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= render 'layouts/rails_default' %>
+    <%= render 'layouts/shim' %>
+
+    
+    <% unless session[:workspace_id].nil?%>
+    >
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href="https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.css" rel="stylesheet">
+    <script src="https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.js"></script>
+    <script src="https://cdn.rawgit.com/yuku-t/jquery-textcomplete/v1.3.4/dist/jquery.textcomplete.js"></script>
+
+      <script>
+      var yourInterval
+
+      $(document).ready(function () {
+          // will call refreshPartial every 3 seconds
+          yourInterval = setInterval(refreshPartial, 3000)
+      });
+
+      // calls action refreshing the partial
+      function refreshPartial() {
+        //clearInterval(yourInterval)
+        $.ajax({
+          url: "/refresh"
+      })
+      }
+
+      function stop() { 
+        clearTimeout(yourInterval); 
+      } 
+      </script>
+  
+    <% end %>
+    
+    <script>
+      function areYouSure() {
+            if(window.event) {
+            $.ajax({
+              url: "/logout"
+            })
+            }
+          }
+      window.onbeforeunload = areYouSure;
+
+    </script>
+  </head>
+
+  <body>
+  <%= render 'layouts/header' %>
+  <%= javascript_include_tag 'rails_emoji_picker' %>
+    <div >
+    <% flash.each do |message_type, message| %>
+      <div style="text-align:center" class="alert alert-<%= message_type %>"><%= message %></div>
+    <% end %>
+    <%= yield %>
+    </div>
+    <% if session[:workspace_id].nil?%>
+      <%= render 'layouts/footer' %> 
+    <% end%>
+  </body>
+</html>

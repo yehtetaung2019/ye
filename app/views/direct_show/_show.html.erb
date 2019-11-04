@@ -1,0 +1,36 @@
+<div id="main">
+       
+<div class = "txtmsg">	
+<% @count = 0 %>
+    <%= render 'direct_show/directmsglists' %>
+    <div class = "textboxbg">
+        <div class="textbox">
+            <%= form_for(:session, url: directmsg_path) do |f| %>
+                <!-- yehtetaung -->
+            <div class="col-md-2" style="color:black;">
+                <%= f.file_field :attachement %>
+            </div>
+            <!-- yehtetaung -->
+                <div class="col-md-9 text-left">
+                    <%= f.text_field :message, class: 'form-control', id: 'emojionearea1' %>
+                </div>
+                <div class="col-md-1">
+                    <%= f.submit "Send", class: "btn btn-primary"%>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+</div>
+<div>
+    <%= render 'leftpanel/leftpanel' %>
+</div>
+<script>
+    $(document).ready(function() {
+    $("#emojionearea1").emojioneArea({
+        pickerPosition: "top",
+        tonesStyle: "bullet",
+        autocomplete: true
+        });
+});
+</script>

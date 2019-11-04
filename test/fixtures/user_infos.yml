@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gender: false
+  dob: 2019-10-08
+  work: MyString
+
+two:
+  gender: false
+  dob: 2019-10-08
+  work: MyString

@@ -1,0 +1,23 @@
+<% unless @m_channels.nil? %>
+    $("#channellists").html("<%= j(render 'leftpanel/leftpanel', data: @m_channels) %>");
+<% end %>
+
+<% unless @m_users.nil? %>
+    $("#userlists").html("<%= j(render 'leftpanel/leftpanel', data: @m_users) %>");
+<% end %>
+
+<% unless @t_direct_messages.nil? %>
+    $("#directlist").html("<%= j(render 'direct_show/show', data: @t_direct_messages) %>");
+<% end %>
+
+<% unless @t_direct_threads.nil? %>
+    $("#main").html("<%= j(render 'direct_thread_show/showthread', data: @t_direct_threads) %>");
+<% end %>
+
+<% unless @t_group_messages.nil? %>
+    $("#grouplist").html("<%= j(render 'group_show/groupmsglists', data: @t_group_messages) %>");
+<% end %>
+
+<% unless @t_group_threads.nil? %>
+    $("#main").html("<%= j(render 'group_thread_show/showthread', data: @t_group_threads) %>");
+<% end %>

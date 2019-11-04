@@ -1,0 +1,22 @@
+<!-- 20190916 Create by Myo Min Naing@CyberMissions Myanmar Company limited -->
+<div id="dialogoverlay"></div>
+<%= render 'group_show/show' %>
+<div id="dialogbox" style="padding:30px;">
+    <%=form_for(@group_message) do |f| %>
+      <%= f.hidden_field :id %>
+      <%= f.label :"Edit Message", style:'font-size:20px;font-weight:bold;margin:0 0 10px 35%;'%>
+      <%= f.text_field:groupmsg, class:'form-control',autofocus:true %>
+      <%= f.hidden_field :m_channel_id %>
+      <%= f.hidden_field :m_user_id %> 
+      <span id="btn">
+      <%= f.submit "Update",class:"btn btn-primary btn-sm", style:'width:90px;'%>
+      <%= button_tag t('buttons.cancel'), type: "submit", name: "cancel", value: true, class:"btn btn-primary btn-sm", style:'width:90px;'%>
+      
+      </span>
+    <% end %>
+</div>
+  <div>
+    <%= render 'leftpanel/leftpanel' %>
+  </div>
+ 
+<!-- 20190916 Create by Myo Min Naing@CyberMissions Myanmar Company limited -->

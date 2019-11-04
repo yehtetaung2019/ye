@@ -1,0 +1,68 @@
+<!-- Profile Create by Yin Yin Aye@CyberMissions Myanmar Company limited -->
+
+<div class="container-fluid style26">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="card hovercard" style="background:rgb(126, 175, 248);min-height:90vh;">
+                <div class="cardheader">
+
+                </div>
+                <div class="avatar text-center">
+                    
+                    <% unless (@s_user_info.present?) %>
+
+                        <%= image_tag "userimg.jpg", :class => "img-round", :size => "180x180", style:"border:1px solid grey;border-radius:5px;" %><br>
+                    <% else %>
+                        <% unless (@s_user_info.profile_image.present?) %>
+                            <%= image_tag "userimg.jpg", :class => "img-round", :size => "180x180", style:"border:1px solid grey;border-radius:5px;" %><br>
+                        <% else %>
+                            <%= image_tag @s_user_info.profile_image.url, :class => "img-round", :size => "180x180", style:"border:1px solid grey;border-radius:5px;" %><br>
+                        <% end %>
+                    <% end %>
+                </div>
+                <div class="text-center">
+                    <h4><%= @s_user.name %></h4>
+                    <% if @s_user.admin==true %>
+                        <h5>Admin</h5>
+                    <% else %>
+                        <h5>User</h5>
+                    <% end %>
+                </div>
+                <div class="container-fluid row" style="padding-left:38%;">
+                    <div class="col-xs-4 col-sm-3 col-md-3">
+                        <br><br>  
+                        <label>Gender</label><br><br><br>
+                        <label>Date Of Birth</label><br><br><br>
+                        <label>Work</label><br>               
+                   
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-4" >
+                        <% unless @s_user_info.nil? %>
+                            <br><br>  
+                            <label>
+                                <% if @s_user_info.gender==true %>
+                                    Female
+                                <% elsif @s_user_info.gender==false %>
+                                    Male
+                                <% end %>
+                            </label><br><br><br>
+                            <label><%= @s_user_info.dob %></label><br><br><br>
+                            <label><%= @s_user_info.work %></label>
+                        <% end %>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+	</div>
+</div>
+
+<div>
+    <%= render 'leftpanel/leftpanel' %>
+</div>
+
+
+<!-- Profile Create by Yin Yin Aye@CyberMissions Myanmar Company limited -->rgb(255, 153, 0)rgb(255, 153, 0)

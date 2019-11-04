@@ -1,0 +1,124 @@
+ <div class="txtmsg">	
+<% @count = 0 %>
+    <div id="grouplist">	
+        <div class="title">		
+            <h2 class="style1">
+            <%= @s_channel.channel_name%> 
+            <sapn style="margin-left: 20px"> 
+                <i class="material-icons">&#xe7fc;</i> <%= link_to @u_count, channeluser_path%>
+            </span>
+            
+            <% if @m_channelsids.include?session[:s_channel_id].to_i%>
+            <span>
+                <button type="button" class="btn btn-default btn-sm" style='font-size:15px; background-color: #F4F4F4'>
+                    <%= link_to "編集", channeledit_path(id: @s_channel.id), class: 'fa fa-edit',  style: 'font-size:15px; color: black;'%>
+                </button>
+                
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal" style='font-size:15px; background-color: #F4F4F4'>
+                    <span class="glyphicon glyphicon-trash" style="font-weight:bold">削除 </span>
+                </button>
+            </span>
+            <% end%>
+            </h2>
+        </div>
+        <div class="style1" style="padding-top: 80px">
+                <%= link_to "Load More",  refresh_group_url , class:'glyphicon glyphicon-refresh', style: 'word-spacing: -0.63em;'%>
+        </div>
+        <% @t_group_messages.each do |t_group_message| %>
+            <p class="style21"><%= @count += 1 %></p>
+            <p class="style22">
+                <!-- Message Profile Yin Yin Aye -->
+                <% @msg_profiles.each do |msg_profile| %>
+                    <% if msg_profile.user_id == t_group_message.m_user_id %>
+                        <% unless (msg_profile.present?) %>
+                            <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+                        <% else %>
+                            <% unless (msg_profile.profile_image.present?) %>
+                                <%= image_tag "userimg.jpg", :class => "img-circle", :size => "30x30" %>
+                            <% else %>
+                                <%= image_tag msg_profile.profile_image.url, :class => "img-circle", :size => "30x30" %>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+                <!-- Message Profile Yin Yin Aye -->
+                <%= t_group_message.name%>
+            </p>
+            <p class="style23"><%= t_group_message.created_at.strftime('%B %d %Y, %l:%M%P')%></p>
+            <p class="style24"><%= link_to t_group_message.count,  t_group_message, class: 'fab fa-facebook-messenger'%></p>
+            <% if @t_group_star_msgids.include? t_group_message.id %>
+                <%= link_to "",  groupunstar_path(:id => t_group_message.id), class:'fas fa-star' %>
+            <% else %>
+                <%= link_to "",  groupstar_path(:id => t_group_message.id), class:'far fa-star'%>
+            <% end %>
+            <!-- 20190916 Create by Myo Min Naing@CyberMissions Myanmar Company limited -->
+            <% if t_group_message.m_user_id == session[:user_id]%>
+                <%= link_to "", channelmsgedit_path(:id => t_group_message.id), class:'fa fa-edit', style: 'margin-left: 10px;' %>                             
+                <%= link_to "",  delete_groupmsg_path(:id => t_group_message.id), class:'fa fa-trash', style: 'margin-left: 10px;'%>
+            <% end %>
+            <!-- 20190916 Create by Myo Min Naing@CyberMissions Myanmar Company limited -->
+            <!-- Update Create by Myo Min Naing@CyberMissions Myanmar Company limited -->
+            <div class="text-justify style3">
+                <span style="border-radius:10px;padding:5px;background-color:#42c5ed;color: black;"><%= t_group_message.groupmsg %></span>
+                <% if t_group_message.m_user_id == session[:user_id]%>
+                    <% if @ch_un_status.include?t_group_message.id%>
+                        <a class="badge" style="color:green;background-color:lightgrey; size:3px;cursor:default;">seen</a>
+                    <% else %>
+                        <a class="badge" style="color:green;background-color:lightgrey; size:3px;cursor:default;">sent</a>
+                    <% end %>
+                <% end %>
+            </div>
+            <!--  Update by Myo Min Naing@CyberMissions Myanmar Company limited -->
+            <!-- yehtetaung -->
+            <% @attachment.each do |attach|%>
+                <% if t_group_message.id == attach.id %>
+                    <p class="style3"><%=link_to "Download file", t_group_message.attachement_url%></p>
+                    <% if ['jpg', 'jpeg', 'png','gif'].include?(t_group_message.attachement.file.extension.downcase) %>
+                       <p class="style3"><%= image_tag t_group_message.attachement.url,:size => '260x180' %> </p>
+                    <% elsif ['mp4', 'mov'].include?(t_group_message.attachement.file.extension.downcase) %>
+                        <p class="style3"><%= video_tag t_group_message.attachement.url, :size => "720x240", :controls => true, autoplay: true, loop: true %></p>
+                    <%else%>
+                        <p class="style3"><%= t_group_message.attachement.file.filename %></p>
+                    <% end %>
+                <% end %>
+            <% end %>
+            <!-- yehtetaung -->
+            <hr>
+        <% end %>
+   </div>
+</div>
+
+ <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #A8A8A8">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="color: white">Channel Delete</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure to delete channel?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info btn-sm" style='font-size:15px;'>
+                <%= link_to "Delete", delete_channel_path(id: @s_channel.id), class: 'glyphicon glyphicon-trash',  style: 'font-size:15px; color: white;'%>
+            </button>
+            <button type="button" class="btn btn-info btn-sm" style='font-size:15px;' data-dismiss="modal">
+                <%= link_to "Cancel", "#", class: 'glyphicon glyphicon-remove',  style: 'font-size:15px; color: white;'%>
+            </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+<script>
+    window.scrollTo(0,document.body.scrollHeight);
+</script>
+
+
+
+
+

@@ -1,0 +1,22 @@
+ #Thu Zin TUn 27082019
+<div id="main">
+<h1 style="text-align:center">Change Workspace Name</h1>
+  <br><br>
+  <div class="container para">
+    <div class="col-md-6 col-md-offset-4 " >
+      <%=form_for(:session, url: change_workspacename_url) do |f| %>
+        <%= f.label :name, "Original Workspace Name :"%>
+        <%= f.label:workspace_name, @m_workspace.workspace_name%> 
+        <br><br>
+        
+        <%= f.label :name,'New Workspace Name'%>
+        <%= f.text_field :name, class:'form-control'%> 
+        <%= f.submit "Change", class: "btn btn-primary" %>
+        <% end %>
+    </div>
+  </div>                                               
+</div>
+<div>
+    <%= render 'leftpanel/leftpanel' %>
+</div>
+ #Thu Zin TUn 27082019
